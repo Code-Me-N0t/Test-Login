@@ -15,5 +15,5 @@ Launch Testing Website
     Main Setup        ${url}
 
 Main Teardown
-    Capture Page Screenshot
+    Wait Until Keyword Succeeds    10s    1s    Capture Page Screenshot
     Close All Browsers
