@@ -11,6 +11,7 @@ Scenario 1: Positive Login
     AND I enter a    ${registered_password}    ${password}
     WHEN I click    ${submit}
     THEN I should be redirected to the    ${product_page}
+
 Scenario 2: Negative Username Login
     [Tags]    LOGIN    NEGATIVE    1727863204556
     GIVEN I landed on   ${login_page}
@@ -18,6 +19,7 @@ Scenario 2: Negative Username Login
     AND I enter a    ${registered_password}    ${password}
     WHEN I click    ${submit}
     THEN A message should display    ${invalid_input_message}    ${error_message}
+
 Scenario 3: Negative Password Login
     [Tags]    LOGIN    NEGATIVE    1727863246041
     GIVEN I landed on   ${login_page}
@@ -25,12 +27,14 @@ Scenario 3: Negative Password Login
     AND I enter a    ${unregistered_password}    ${password}
     WHEN I click    ${submit}
     THEN A message should display    ${invalid_input_message}    ${error_message}
+    
 Scenario 4: Empty Username Login
     [Tags]    LOGIN    NEGATIVE    1727863267274
     GIVEN I landed on   ${login_page}
     AND I enter a    ${unregistered_password}    ${password}
     WHEN I click    ${submit}
     THEN A message should display    ${require_username_message}    ${error_message}
+    
 Scenario 5: Empty Password Login
     [Tags]    LOGIN    NEGATIVE    1727863300910
     GIVEN I landed on   ${login_page}
@@ -157,14 +161,14 @@ Scenario 23: Verify page should Logged Out when Logout tab is clicked
     WHEN I click    ${logout_tab}
     THEN I should be redirected to the    ${login_page}
 
-Scenario: Verify product's names should match product's images
+Scenario 24: Verify product's names should match product's images
     [Tags]    PRODUCT    1727864974837
     GIVEN I logged in using    ${registered_username}    ${registered_password}
     WHEN I landed on    ${product_page}
     THEN The product's names should match the product's images
     ...    ${item_name}    ${item_image}
 
-Scenario 24: Removing a product should update the badge number
+Scenario 25: Removing a product should update the badge number
     [Tags]    RemoveProduct    1728355056490
     GIVEN I logged in using    ${registered_username}    ${registered_password}
     WHEN I click    id=add-to-cart-sauce-labs-backpack
@@ -172,7 +176,7 @@ Scenario 24: Removing a product should update the badge number
     AND I click    id=remove-sauce-labs-backpack
     THEN The element should not display a    ${badge_number}    1
 
-Scenario 25: Removing multiple products should update the badge number
+Scenario 26: Removing multiple products should update the badge number
     [Tags]    RemoveProduct    1728367884314
     GIVEN I logged in using    ${registered_username}    ${registered_password}
     WHEN I click    id=add-to-cart-sauce-labs-backpack

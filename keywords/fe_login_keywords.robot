@@ -2,7 +2,6 @@
 Resource        ../settings/main_resources.robot
 
 *** Keywords ***
-
 I landed on
     [Arguments]        ${locator}
     Verify If Element Is Existing    ${locator}
@@ -15,12 +14,7 @@ I click
     [Arguments]        ${locator}
     Click Specific Element    ${locator}
     
-
 I should be redirected to the
-    [Arguments]        ${locator}
-    Verify If Element Is Existing    ${locator}
-
-I redirected to the
     [Arguments]        ${locator}
     Verify If Element Is Existing    ${locator}
 
@@ -79,13 +73,14 @@ The following elements should display
         Log    Actual: ${actual} and Expected: ${expected}
         Should Be Equal    ${actual}    ${expected}
     END
+
 I logged in using
     [Arguments]    ${username_credential}    ${password_credential}
     I landed on    ${login_page}
     I enter a    ${username_credential}    ${username}
     I enter a    ${password_credential}    ${password}
     I click    ${submit}
-    I redirected to the    ${product_page}
+    I landed on    ${product_page}
 
 The product's names should match the product's images
     [Arguments]    ${product_name_locator}    ${product_img_locator}
@@ -127,13 +122,13 @@ The product's names should match the product's images
         ${common_texts}=    Create List
 
         FOR    ${image}    IN    @{product_image_list}
-           FOR    ${name}    IN    @{product_name_list}
+            FOR    ${name}    IN    @{product_name_list}
                 Log    Image: ${image}, Name: ${name}
                 IF    "${image}" == "${name}"
                     Append To List    ${common_texts}    ${image}
                     Log    ${common_texts}
                 END
-           END 
+            END
         END
         
         Log    ${common_texts}
