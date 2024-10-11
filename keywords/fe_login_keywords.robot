@@ -38,6 +38,14 @@ The element should contain
     Log    ${sort_text}
     Should Contain    ${sort_text}    ${text}
 
+The product should display
+    [Arguments]    ${text}
+    Page Should Contain    ${text}
+
+The product should not display
+    [Arguments]    ${text}
+    Page Should Not Contain    ${text}
+
 The element should display a
     [Arguments]    ${locator}    ${number}
     Verify If Element Is Existing    ${locator}
@@ -134,3 +142,7 @@ The product's names should match the product's images
         Log    ${common_texts}
         Should Not Be Empty    ${common_texts}
     END
+
+
+
+

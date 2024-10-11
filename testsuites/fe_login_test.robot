@@ -187,3 +187,101 @@ Scenario 26: Removing multiple products should update the badge number
     AND I click    id=remove-sauce-labs-backpack
     AND I click    id=remove-sauce-labs-onesie
     THEN The element should not display a    ${badge_number}    3
+
+Scenario 27: Verify added product should display in the Cart Page
+    [Tags]    CartPage    1727865195624
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I click    id=add-to-cart-sauce-labs-backpack
+    WHEN I click    ${cart_icon}
+    AND I landed on    ${cart_page}
+    THEN The product should display    Sauce Labs Backpack
+
+Scenario 28: Verify clicking checkout should redirect to checkout information page
+    [Tags]    CheckoutPage    1727865280336
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I click    id=add-to-cart-sauce-labs-backpack
+    AND I click    ${cart_icon}
+    AND I landed on    ${cart_page}
+    WHEN I click    ${checkout_button}
+    THEN I should be redirected to the    ${checkout_info_page}
+
+Scenario 29: Verify clicking the Cart Icon should redirect the page to Cart Page
+    [Tags]    CartPage    1727865323037
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    WHEN I click    ${cart_icon}
+    THEN I should be redirected to the    ${cart_page}
+
+Scenario 30: Verify clicking "Continue Shopping" button should redirect the page back to Product Page
+    [Tags]    CartPage    1727865354177
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I click    ${cart_icon}
+    AND I landed on    ${cart_page}
+    WHEN I click    ${continue_shopping_button}
+    THEN I should be redirected to the    ${product_page}
+
+Scenario 31: Verify going back to product page the added product should still be added
+    [Tags]    CartPage    1727865393775
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I click    id=add-to-cart-sauce-labs-backpack
+    AND I click    ${cart_icon}
+    AND I landed on    ${cart_page}
+    WHEN I click    ${continue_shopping_button}
+    AND I landed on    ${product_page}
+    THEN The element should contain    Remove    id=remove-sauce-labs-backpack
+
+Scenario 32: Verify clicking "All Items" tab should redirect to product page
+    [Tags]    CartPage    1727865424706
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I click    ${cart_icon}
+    AND I click    ${cart_page}
+    WHEN I click    ${menu_icon}
+    AND I click    ${inventory_tab}
+    THEN I should be redirected to the    ${product_page}
+
+Scenario 33: Verify added products should have Product Quantity displayed
+    [Tags]    CartPage    1727865511602
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I click    id=add-to-cart-sauce-labs-backpack
+    AND I click    ${cart_icon}
+    WHEN I click    ${cart_page}
+    AND I landed on    ${cart_page}
+    THEN The element should contain    1    ${cart_item}
+
+Scenario 34: Verify added products should have Product Price displayed
+    [Tags]    CartPage    1727865540066
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I click    id=add-to-cart-sauce-labs-backpack
+    AND I click    ${cart_icon}
+    WHEN I click    ${cart_page}
+    AND I landed on    ${cart_page}
+    THEN The element should contain    29.99    ${cart_item}
+
+Scenario 35: Verify added products should have Product Name displayed
+    [Tags]    CartPage    1727865580993
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I click    id=add-to-cart-sauce-labs-backpack
+    AND I click    ${cart_icon}
+    WHEN I click    ${cart_page}
+    AND I landed on    ${cart_page}
+    THEN The element should contain    Sauce Labs Backpack    ${cart_item}
+
+Scenario 36: Verify added products should have Product Description displayed
+    [Tags]    CartPage    1727865594900
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I click    id=add-to-cart-sauce-labs-backpack
+    AND I click    ${cart_icon}
+    WHEN I click    ${cart_page}
+    AND I landed on    ${cart_page}
+    THEN The element should contain    
+    ...    with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection.    
+    ...    ${cart_item}
+
+Scenario 37: Verify removing product in Cart Page should remove the product on the page
+    [Tags]    CartPage    1727865606124
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I click    id=add-to-cart-sauce-labs-backpack
+    AND I click    ${cart_icon}
+    AND I click    ${cart_page}
+    AND The element should contain    Sauce Labs Backpack    ${cart_item}
+    WHEN I click    id=remove-sauce-labs-backpack
+    THEN The product should not display    Sauce Labs Backpack
