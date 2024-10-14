@@ -285,3 +285,208 @@ Scenario 37: Verify removing product in Cart Page should remove the product on t
     AND The element should contain    Sauce Labs Backpack    ${cart_item}
     WHEN I click    id=remove-sauce-labs-backpack
     THEN The product should not display    Sauce Labs Backpack
+
+Scenario 38: Verify product image on the Product List and View Product are the same
+    [Tags]    ViewProduct    1727865703667
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    WHEN I landed on    ${product_page}
+    THEN The product's images should match    
+    ...    css=img[alt="Sauce Labs Backpack"]
+    ...    css=img[alt="Sauce Labs Backpack"]
+
+Scenario 39: Verify clicking a product should redirect the page to Product View Page
+    [Tags]    ViewProduct    1727865753676
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    WHEN I click    css=img[alt="Sauce Labs Bike Light"]
+    THEN I should be redirected to the    ${product_view_page}
+
+Scenario 40: Verify navigating to Product's View Page should display Product's Name
+    [Tags]    ViewProduct    1727865785934
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    WHEN I click    css=img[alt="Sauce Labs Bike Light"]
+    AND I landed on    ${product_view_page}
+    THEN The product should display    Sauce Labs Bike Light
+
+Scenario 41: Verify navigating to Product's View Page should display Product's Description
+    [Tags]    ViewProduct    1727865810678
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    WHEN I click    css=img[alt="Sauce Labs Bike Light"]
+    AND I landed on    ${product_view_page}
+    THEN The product should display    
+    ...    A red light isn't the desired state in testing but it sure helps when riding your bike at night. Water-resistant with 3 lighting modes, 1 AAA battery included.
+
+Scenario 42: Verify navigating to Product's View Page should display Product's Price
+    [Tags]    ViewProduct    1727865817955
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    WHEN I click    css=img[alt="Sauce Labs Bike Light"]
+    AND I landed on    ${product_view_page}
+    THEN The product should display    
+    ...    9.99
+
+Scenario 43: Verify navigating to Product's View Page should display Add To Cart / Remove button
+    [Tags]    ViewProduct    1727865830040
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    WHEN I click    css=img[alt="Sauce Labs Bike Light"]
+    AND I landed on    ${product_view_page}
+    THEN The element should contain    Add to cart    id=add-to-cart
+
+Scenario 44: Verify clicking the "Back to products" button should navigate to Product Page
+    [Tags]    ViewProduct    1727865850332
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I click    css=img[alt="Sauce Labs Bike Light"]
+    AND I landed on    ${product_view_page}
+    WHEN I click    id=back-to-products
+    THEN I should be redirected to the    ${product_page}
+
+Scenario 45: Verify clicking Checkout button should navigate to Checkout Information Page
+    [Tags]    InfoPage    1727865907818
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I click    id=add-to-cart-sauce-labs-backpack
+    AND I click    ${cart_icon}
+    AND I landed on    ${cart_page}
+    WHEN I click    ${checkout_button}
+    THEN I should be redirected to the    ${checkout_info_page}
+
+Scenario 46: Verify clicking Checkout button should display First Name input
+    [Tags]    InfoPage    1727865948362
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I click    id=add-to-cart-sauce-labs-backpack
+    AND I click    ${cart_icon}
+    AND I landed on    ${cart_page}
+    WHEN I click    ${checkout_button}
+    AND I landed on    ${checkout_info_page}
+    THEN The element should display    ${first_name}
+
+Scenario 47: Verify clicking Checkout button should display Last Name input
+    [Tags]    InfoPage    1727865981074
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I click    id=add-to-cart-sauce-labs-backpack
+    AND I click    ${cart_icon}
+    AND I landed on    ${cart_page}
+    WHEN I click    ${checkout_button}
+    AND I landed on    ${checkout_info_page}
+    THEN The element should display    ${last_name}
+
+Scenario 48: Verify clicking Checkout button should display Postal Code input
+    [Tags]    InfoPage    1727865985348
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I click    id=add-to-cart-sauce-labs-backpack
+    AND I click    ${cart_icon}
+    AND I landed on    ${cart_page}
+    WHEN I click    ${checkout_button}
+    AND I landed on    ${checkout_info_page}
+    THEN The element should display    ${postal_code}
+
+Scenario 49: Verify entering empty first name should prompt an error
+    [Tags]    InfoPage    1727866000019
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I add to cart    id=add-to-cart-sauce-labs-backpack
+    WHEN I enter a    ${EMPTY}    ${first_name}
+    AND I click    ${continue_button}
+    THEN A message should display    ${require_firstname_message}    ${error_message}
+
+Scenario 50: Verify entering empty last name should prompt an error
+    [Tags]    InfoPage    1727866000019
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I add to cart    id=add-to-cart-sauce-labs-backpack
+    WHEN I enter a    ${EMPTY}    ${last_name}
+    WHEN I enter a    ${valid_first_name}    ${first_name}
+    WHEN I enter a    ${valid_postal_code}    ${postal_code}
+    AND I click    ${continue_button}
+    THEN A message should display    ${require_firstname_message}    ${error_message}
+
+Scenario 51: Verify entering empty postal code should prompt an error
+    [Tags]    InfoPage    1728877481552
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I click    id=add-to-cart-sauce-labs-backpack
+    AND I add to cart    id=add-to-cart-sauce-labs-backpack
+    WHEN I enter a    ${EMPTY}    ${postal_code}
+    AND I enter a    ${valid_first_name}    ${first_name}
+    AND I enter a    ${valid_last_name}    ${last_name}
+    AND I click    ${continue_button}
+    THEN A message should display    ${require_postalcode_message}    ${error_message}
+
+Scenario 52: Verify entering valid credentials should redirect the page to Checkout Overview Page
+    [Tags]    InfoPage    1728877482037
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I add to cart    id=add-to-cart-sauce-labs-backpack
+    WHEN I entered valid credentials    ${checkout_overview_page}
+
+Scenario 53: Verify clicking "Continue" button should redirect the page to Checkout Overview Page
+    [Tags]    OverviewPage    1728883243563
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I add to cart    id=add-to-cart-sauce-labs-backpack
+    WHEN I entered valid credentials    ${checkout_overview_page}
+
+Scenario 54: Verify the correct added Product Name should be displayed
+    [Tags]    OverviewPage    1728883302521
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I add to cart    id=add-to-cart-sauce-labs-backpack
+    AND I entered valid credentials    ${checkout_overview_page}
+    WHEN I landed on    ${checkout_overview_page}
+    THEN The element should contain    Sauce Labs Backpack    ${item_name}
+
+Scenario 55: Verify the correct added Product Description should be displayed
+    [Tags]    OverviewPage    1728883401697
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I add to cart    id=add-to-cart-sauce-labs-backpack
+    AND I entered valid credentials    ${checkout_overview_page}
+    WHEN I landed on    ${checkout_overview_page}
+    THEN The element should contain    
+    ...    with the sleek, streamlined Sly Pack that melds uncompromising style with unequaled laptop and tablet protection.    
+    ...    ${item_description}
+    
+Scenario 56: Verify the correct added Product Price should be displayed
+    [Tags]    OverviewPage    1728883419542
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I add to cart    id=add-to-cart-sauce-labs-backpack
+    AND I entered valid credentials    ${checkout_overview_page}
+    WHEN I landed on    ${checkout_overview_page}
+    THEN The element should contain    29.99    ${item_price}
+
+Scenario 57: Verify the correct added Product Price should be displayed
+    [Tags]    OverviewPage    1728883449191
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I add to cart    id=add-to-cart-sauce-labs-backpack
+    AND I entered valid credentials    ${checkout_overview_page}
+    WHEN I landed on    ${checkout_overview_page}
+    THEN The element should contain    2.40    ${tax_label}
+
+Scenario 58: Verify total price with added tax should display correct computation
+    [Tags]    OverviewPage    1728883464459
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I add to cart    id=add-to-cart-sauce-labs-backpack
+    AND I entered valid credentials    ${checkout_overview_page}
+    WHEN I landed on    ${checkout_overview_page}
+    THEN The total price should display correct computation    
+    ...    ${item_price}
+    ...    ${tax_label}
+    ...    ${total_label}
+
+Scenario 59: Verify clicking "Cancel" button should redirect the page to the Product Page
+    [Tags]    OverviewPage    1728883492100
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I add to cart    id=add-to-cart-sauce-labs-backpack
+    AND I entered valid credentials    ${checkout_overview_page}
+    AND I landed on    ${checkout_overview_page}
+    WHEN I click    ${cancel_button}
+    THEN I should be redirected to the    ${product_page}
+
+Scenario 60: Verify clicking "Finish" button should redirect the page to the Product Page
+    [Tags]    OverviewPage    1728883512303
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I add to cart    id=add-to-cart-sauce-labs-backpack
+    AND I entered valid credentials    ${checkout_overview_page}
+    AND I landed on    ${checkout_overview_page}
+    WHEN I click    ${finish_button}
+    THEN I should be redirected to the    ${checkout_complete_page}
+
+Scenario 61: Verify clicking "Finish" button should redirect the page to the Product Page
+    [Tags]    OverviewPage    1728883788167
+    GIVEN I logged in using    ${registered_username}    ${registered_password}
+    AND I add to cart    id=add-to-cart-sauce-labs-backpack
+    AND I entered valid credentials    ${checkout_overview_page}
+    AND I landed on    ${checkout_overview_page}
+    WHEN I click    ${finish_button}
+    AND I landed on    ${checkout_complete_page}
+    THEN A message should display    Thank you for your order!    ${complete_order_message}

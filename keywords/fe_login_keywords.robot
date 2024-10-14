@@ -20,10 +20,11 @@ I should be redirected to the
 
 A message should display
     [Arguments]        ${text}    ${locator}
-    ${error_message}=    Get Text    ${locator}
-    ${error_message}=    Convert To Lower Case    ${error_message}
-    Log    ${error_message}
-    Should Contain    ${error_message}    ${text}
+    ${expected_message}=    Get Text    ${locator}
+    ${expected_message}=    Convert To Lower Case    ${expected_message}
+    ${actual_message}=    Convert To Lower Case    ${text}
+    Log    ${expected_message}
+    Should Contain    ${expected_message}    ${actual_message}
 
 An element should display
     [Arguments]    ${locator}
@@ -51,6 +52,10 @@ The element should display a
     Verify If Element Is Existing    ${locator}
     ${badge_number}=    Get Text    ${locator}
     Should Contain    ${badge_number}    ${number}
+
+The element should display
+    [Arguments]    ${locator}
+    Verify If Element Is Existing    ${locator}
 
 The element should not display a
     [Arguments]    ${locator}    ${number}
@@ -90,6 +95,22 @@ I logged in using
     I click    ${submit}
     I landed on    ${product_page}
 
+I add to cart
+    [Arguments]    ${locator}
+    AND I click    ${locator}
+    AND I click    ${cart_icon}
+    AND I landed on    ${cart_page}
+    AND I click    ${checkout_button}
+    AND I landed on    ${checkout_info_page}
+
+I entered valid credentials
+    [Arguments]    ${locator}
+    AND I enter a    ${valid_first_name}    ${first_name}
+    AND I enter a    ${valid_last_name}    ${last_name}
+    AND I enter a    ${valid_postal_code}    ${postal_code}
+    WHEN I click    ${continue_button}
+    THEN I should be redirected to the    ${locator}
+
 The product's names should match the product's images
     [Arguments]    ${product_name_locator}    ${product_img_locator}
 
@@ -101,34 +122,14 @@ The product's names should match the product's images
         ${product_name}=    Get Text    ${product_name_element}
 
         Wait Until Element Is Visible    ${product_image_element}
-        ${product_image_value}=    Get Element Attribute    ${product_image_element}    src
-        ${product_image_str1}=    Replace String    ${product_image_value}    https://www.saucedemo.com/static/media/    ${EMPTY}
-        ${product_image_str2}=    Replace String    ${product_image_str1}    -    ${SPACE}
-        
-        ${product_image_split}=    Split String    ${product_image_str2}    ${SPACE}
-        ${product_image}=    Set Variable    ${product_image_split[0]} ${product_image_split[1]}
+        ${product_image}=    Convert URL to String    ${product_image_element}
         
         Log    Product Name: ${product_name}, Product Image Text: ${product_image}
 
-        # Convert to lower case for comparison
-        ${product_name}=    Convert To Lower Case    ${product_name}
-        ${product_image}=    Convert To Lower Case    ${product_image}
-
-        ${product_name}=    Replace String    ${product_name}    .    ${EMPTY}
-        ${product_name}=    Replace String    ${product_name}    )    ${EMPTY}
-        ${product_name}=    Replace String    ${product_name}    (    ${EMPTY}
-        ${product_name}=    Replace String    ${product_name}    -    ${EMPTY}
-
-        ${product_image}=    Replace String    ${product_image}    .    ${EMPTY}
-        ${product_image}=    Replace String    ${product_image}    )    ${EMPTY}
-        ${product_image}=    Replace String    ${product_image}    (    ${EMPTY}
-        ${product_image}=    Replace String    ${product_image}    -    ${EMPTY}
-
-        ${product_name_list}=    Split String    ${product_name}    ${SPACE}
-        ${product_image_list}=    Split String    ${product_image}    ${SPACE}
+        ${product_image_list}=    Strip String    ${product_image}
+        ${product_name_list}=    Strip String    ${product_name}
         
         ${common_texts}=    Create List
-
         FOR    ${image}    IN    @{product_image_list}
             FOR    ${name}    IN    @{product_name_list}
                 Log    Image: ${image}, Name: ${name}
@@ -143,6 +144,46 @@ The product's names should match the product's images
         Should Not Be Empty    ${common_texts}
     END
 
+Convert URL to String
+    [Arguments]    ${locator}
+    ${element_attrib_value}=    Get Element Attribute    ${locator}    src
+    ${element_value_str1}=    Replace String    ${element_attrib_value}    https://www.saucedemo.com/static/media/    ${EMPTY}
+    ${element_value_str2}=    Replace String    ${element_value_str1}    -    ${SPACE}
+    ${element_value_split}=    Split String    ${element_value_str2}    ${SPACE}
+    ${string}=    Set Variable    ${element_value_split[0]} ${element_value_split[1]}
+    RETURN    ${string}
 
+Strip String
+    [Arguments]    ${text}
+    ${lower_case_text}=    Convert To Lower Case    ${text}
+    ${replaced_string}=    Replace String Using Regexp    ${lower_case_text}    [.\\)\\(\\-\\$]    ${EMPTY}
+    ${stripped_text}=    Split String    ${replaced_string}    ${SPACE}
+    Log    ${stripped_text}
+    RETURN    ${stripped_text}
 
+The product's images should match
+    [Arguments]    ${locator1}    ${locator2}
+    ${expected_string_url}=    Convert URL to String    ${locator1}
 
+    I click    ${locator1}
+
+    ${actual_string_url}=    Convert URL to String    ${locator2}
+
+    Log    Expected:${expected_string_url}, Actual:${actual_string_url}
+
+    Should Be Equal    ${expected_string_url}    ${actual_string_url}
+
+The total price should display correct computation    
+    [Arguments]    ${value1_locator}    ${value2_locator}    ${total_value_locator}
+    ${price}=    Get Text    ${value1_locator}
+    ${price}=    Replace String Using Regexp    ${price}    [^0-9.]    ${EMPTY}
+    ${added_tax}=    Get Text    ${value2_locator}
+    ${added_tax}=    Replace String Using Regexp    ${added_tax}    [^0-9.]    ${EMPTY}
+    ${actual_total_value}=    Get Text    ${total_value_locator}
+    ${actual_total_value}=    Replace String Using Regexp    ${actual_total_value}    [^0-9.]    ${EMPTY}
+    ${actual_total_value}=    Evaluate    float(${actual_total_value})
+
+    ${expected_total_value}=    Evaluate    round(float(${price}) + float(${added_tax}), 2)
+    Log    ${expected_total_value}
+
+    Should Be Equal    ${expected_total_value}    ${actual_total_value}

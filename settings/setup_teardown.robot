@@ -2,7 +2,6 @@
 Resource        main_resources.robot
 
 *** Keywords ***
-
 Main Setup
     [Arguments]        ${url}
     Empty Directory    testsuites/screenshots

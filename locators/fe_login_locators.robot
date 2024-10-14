@@ -19,6 +19,8 @@ ${sidebar}        class=bm-menu-wrap
 
 ${item_name}        class=inventory_item_name
 ${item_image}        css=img.inventory_item_img
+${item_description}        class=inventory_item_desc
+${item_price}        class=inventory_item_price
 
 ${inventory_tab}        id=inventory_sidebar_link
 ${about_tab}        id=about_sidebar_link
@@ -39,4 +41,19 @@ ${about_page}        id=__next
 
 #checkout_info_page
 ${checkout_info_page}        id=checkout_info_container
+${first_name}        id=first-name
+${last_name}        id=last-name
+${postal_code}        id=postal-code
+${continue_button}    id=continue
 
+# checkout overview page
+${checkout_overview_page}        id=checkout_summary_container
+${tax_label}        class=summary_tax_label
+${total_label}        class=summary_total_label
+${cancel_button}        id=cancel
+${finish_button}        id=finish
+
+# checkout complete page
+${checkout_complete_page}        id=checkout_complete_container
+${complete_order_message}        class=complete-header
+${back_home_button}        id=back-to-products
