@@ -386,19 +386,18 @@ Scenario 49: Verify entering empty first name should prompt an error
     THEN A message should display    ${require_firstname_message}    ${error_message}
 
 Scenario 50: Verify entering empty last name should prompt an error
-    [Tags]    InfoPage    1727866000019
+    [Tags]    InfoPage    1727866029129
     GIVEN I logged in using    ${registered_username}    ${registered_password}
     AND I add to cart    id=add-to-cart-sauce-labs-backpack
     WHEN I enter a    ${EMPTY}    ${last_name}
     WHEN I enter a    ${valid_first_name}    ${first_name}
     WHEN I enter a    ${valid_postal_code}    ${postal_code}
     AND I click    ${continue_button}
-    THEN A message should display    ${require_firstname_message}    ${error_message}
+    THEN A message should display    ${require_lastname_message}    ${error_message}
 
 Scenario 51: Verify entering empty postal code should prompt an error
     [Tags]    InfoPage    1728877481552
     GIVEN I logged in using    ${registered_username}    ${registered_password}
-    AND I click    id=add-to-cart-sauce-labs-backpack
     AND I add to cart    id=add-to-cart-sauce-labs-backpack
     WHEN I enter a    ${EMPTY}    ${postal_code}
     AND I enter a    ${valid_first_name}    ${first_name}
