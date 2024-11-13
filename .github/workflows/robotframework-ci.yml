@@ -26,20 +26,15 @@ jobs:
         pip install robotframework robotframework-seleniumlibrary
         choco install googlechrome
 
-    - name: Download and install ChromeDriver
-      run: |
-        # Download the specified ChromeDriver version
-        wget -N https://storage.googleapis.com/chrome-for-testing-public/131.0.6778.69/win64/chromedriver-win64.zip
-        # Unzip the downloaded file
-        tar -xf chromedriver-win64.zip
-        # Move ChromeDriver to the PATH directory
-        move chromedriver.exe /usr/local/bin/
-        # Add ChromeDriver to PATH
-        set PATH=%PATH%;/usr/local/bin/
-
+    - name: Run Webdriver Manager      
+      run: |        
+        python -c "from webdriver_manager.chrome import ChromeDriverManager; ChromeDriverManager().install()"
+        
     - name: Run Robot Framework tests
       run: |
         robot testsuites/
+      env:        
+        PATH: ${{ runner.tool_cache }}/chromedriver:${{ env.PATH }}
 
     - name: Archive test results
       if: always()
