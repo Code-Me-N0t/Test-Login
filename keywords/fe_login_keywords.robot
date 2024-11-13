@@ -4,7 +4,7 @@ Resource        ../settings/main_resources.robot
 *** Keywords ***
 I landed on
     [Arguments]        ${locator}
-    Verify If Element Is Existing    ${locator}
+    Wait Until Keyword Succeeds    10    1s    Verify If Element Is Existing    ${locator}
 
 I enter a
     [Arguments]        ${text}        ${locator}
