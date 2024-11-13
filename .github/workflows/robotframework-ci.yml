@@ -32,7 +32,7 @@ jobs:
 
     - name: Run Robot Framework tests
       run: |
-        robot -d output testsuites/
+        robot -d output -i LOGIN testsuites/
 
     - name: Archive test results
       if: always()
@@ -45,7 +45,8 @@ jobs:
       if: always()
       uses: peaceiris/actions-gh-pages@v3
       with:
-        personal_token: ${{ secrets.GITHUB_TOKEN }}
+        personal_token: ${{ secrets.GH_PAGES_TOKEN }}
+        external_repository: ${{ github.repository }}
         publish_dir: ./output/
         publish_branch: gh-pages 
         commit_message: "Publish Robot Framework test results"
