@@ -9,7 +9,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - name: Checkout repository
@@ -23,23 +23,19 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install robotframework-seleniumlibrary
-        sudo apt-get update
-        sudo apt-get install -y unzip wget curl google-chrome-stable
+        pip install robotframework robotframework-seleniumlibrary
+        choco install googlechrome
 
     - name: Download and install ChromeDriver
       run: |
-        # Get the Chrome version number
-        CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
-        # Get the corresponding ChromeDriver version number
-        CHROME_DRIVER_VERSION=$(curl -sS "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION}")
-        # Download the corresponding ChromeDriver
-        wget -N "https://chromedriver.storage.googleapis.com/${CHROME_DRIVER_VERSION}/chromedriver_linux64.zip"
+        # Download the specified ChromeDriver version
+        wget -N https://storage.googleapis.com/chrome-for-testing-public/131.0.6778.69/win64/chromedriver-win64.zip
         # Unzip the downloaded file
-        unzip chromedriver_linux64.zip
-        # Move ChromeDriver to /usr/local/bin
-        sudo mv -f chromedriver /usr/local/bin/chromedriver
-        sudo chmod +x /usr/local/bin/chromedriver
+        tar -xf chromedriver-win64.zip
+        # Move ChromeDriver to the PATH directory
+        move chromedriver.exe /usr/local/bin/
+        # Add ChromeDriver to PATH
+        set PATH=%PATH%;/usr/local/bin/
 
     - name: Run Robot Framework tests
       run: |
