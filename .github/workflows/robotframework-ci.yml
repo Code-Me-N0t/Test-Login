@@ -23,8 +23,8 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install robotframework robotframework-seleniumlibrary
-        choco install googlechrome
+        pip install -r requirements.txt        
+        pip install webdriver-manager
 
     - name: Run Webdriver Manager      
       run: |        
