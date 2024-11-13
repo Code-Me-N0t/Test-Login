@@ -42,13 +42,6 @@ Scenario 5: Empty Password Login
     WHEN I click    ${submit}
     THEN A message should display    ${require_password_message}    ${error_message}
 
-Sample Scenario: Sample template usage
-    [Documentation]    Sample template usage
-    [Tags]             template
-    [Template]         I logged in using
-    ${registered_username}    ${registered_password}
-    ${unregistered_username}    ${unregistered_password}
-
 Scenario 6: Sort A to Z
     [Tags]    SORT    1727863394254
     GIVEN I logged in using    ${registered_username}    ${registered_password}
