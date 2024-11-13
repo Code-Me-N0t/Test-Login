@@ -39,10 +39,6 @@ jobs:
       with:
         name: test-results
         path: output/
-    
-    - name: Rename report as index
-      run: |
-        mv output/report.html output/index.html
 
     - name: Publish test results as a GitHub Pages site
       if: always()
