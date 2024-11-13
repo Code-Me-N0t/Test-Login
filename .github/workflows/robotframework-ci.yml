@@ -5,7 +5,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  workflow_dispatch:
+  workflow_dispatch: # Allows manual triggering
 
 jobs:
   test:
@@ -20,23 +20,25 @@ jobs:
       with:
         python-version: '3.12'
 
-    - name: Install dependencies 
-      run: | 
-        python -m pip install --upgrade pip 
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
         pip install robotframework-seleniumlibrary
-        sudo apt-get update 
-        sudo apt-get install -y unzip wget 
-        
-    - name: Download ChromeDriver 
-      run: | 
-        # Get the latest ChromeDriver version number 
-        CHROME_DRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE) 
-        # Download the latest ChromeDriver 
-        wget -N https://chromedriver.storage.googleapis.com/$CHROME_DRIVER_VERSION/chromedriver_linux64.zip 
-        # Unzip the downloaded file 
-        unzip chromedriver_linux64.zip 
-        # Move ChromeDriver to /usr/local/bin 
-        sudo mv -f chromedriver /usr/local/bin/chromedriver 
+        sudo apt-get update
+        sudo apt-get install -y unzip wget curl google-chrome-stable
+
+    - name: Download and install ChromeDriver
+      run: |
+        # Get the Chrome version number
+        CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
+        # Get the corresponding ChromeDriver version number
+        CHROME_DRIVER_VERSION=$(curl -sS "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION}")
+        # Download the corresponding ChromeDriver
+        wget -N "https://chromedriver.storage.googleapis.com/${CHROME_DRIVER_VERSION}/chromedriver_linux64.zip"
+        # Unzip the downloaded file
+        unzip chromedriver_linux64.zip
+        # Move ChromeDriver to /usr/local/bin
+        sudo mv -f chromedriver /usr/local/bin/chromedriver
         sudo chmod +x /usr/local/bin/chromedriver
 
     - name: Run Robot Framework tests
