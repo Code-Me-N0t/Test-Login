@@ -39,7 +39,7 @@ jobs:
 
     - name: Run Robot Framework tests
       run: |
-        robot testsuites/
+        robot -d output testsuites/
 
     - name: Archive test results
       if: always()
